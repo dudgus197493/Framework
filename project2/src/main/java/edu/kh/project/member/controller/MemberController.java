@@ -2,10 +2,14 @@ package edu.kh.project.member.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import edu.kh.project.member.model.service.MemberService;
+import edu.kh.project.member.model.service.MemberServiceImpl;
+import edu.kh.project.member.model.vo.Member;
 
 
 
@@ -16,10 +20,24 @@ import org.springframework.web.bind.annotation.RequestParam;
 //				서비스에서 반환된 결과에 따라
 //				알맞은 화면으로 응답하는 방법을 제어하는 역할
 
-//Controller 어노테이션 : 컴파일러에게 현재 클래스가 Controller임을 알려줌
+// Controller 어노테이션 : 컴파일러에게 현재 클래스가 Controller임을 알려줌
 //						+ bean 등록 (Spring이 객체로 만들어서 관리)
 @Controller
 public class MemberController {
+	
+	// * 공용으로 사용할 Service 객체 생성 *
+	
+	// @Autowired
+	// bean scanning을 통해 bean으로 등록된 객체 중
+	// 알맞은 객체를 DI(의존성 주입) 해주는 어노테이션
+	
+	// 자동 연결 규칙 : 타입이 같거나 상속 관계인 bean을 자동으로 DI
+	
+	// 같은 타입이 여러개 있다면 @Qualifier("name")을 사용하여 DI할 bean 명시
+	
+	@Autowired
+	private MemberService service;
+	
 	
 	// @RequestMapping : 클라이언트의 요청을  처리할 클래스/메서드를 지정하는 어노테이션
 	// == Handler Mapping
@@ -69,10 +87,48 @@ public class MemberController {
 	}
 	
 	// @RequestParam 생략을 이용해서 짧게 코드 작성 가능
-	@RequestMapping(value="/member/login", method = RequestMethod.POST)
+	// @RequestMapping(value="/member/login", method = RequestMethod.POST)
 	public String login(String email, String inputPw) {
 		System.out.println(email);
 		System.out.println(inputPw);
+		
+		return "redirect:/";
+	}
+	
+	// == @RequestMapping(value="/member/login", method= RequestMethod.POST)
+	// @PostMapping("/member/login")// POST 방식의 /member/login 요청을 연결
+	// @GetMapping("/member/login")	// Get  방식의 /member/login 요청을 연결
+
+	// 3. @ModelAttribute 어노테이션 이용
+	
+	// [작성법]
+	// @ModelAttribute VO타입 매개변수명
+	// -> 파라미터의 name속성 값이
+	//	  지정된 VO의 필드명과 같다면 
+	//    해당 VO객체의 필드에 파라미터를 세팅
+	
+	// [조건]
+	// 1. name 속성값과 필드명이 같아야함.
+	// 2. VO에 반드시 기본 생성자가 존재
+	// 3. VO에 반드시 setter가 존재해야함
+	
+	// * @ModelAttribute 어노테이션 생략 가능
+	// == 커맨드 객체
+	
+	@PostMapping("/member/login")
+	public String login(/* @ModelAttribute */ Member inputMember) {
+		
+		// Servlet 프로젝트
+		// Service 객체 생성
+		// try ~ catch내부에 코드 작성
+		
+		// Spring 프로젝트
+		
+		// 서비스 호출 후 결과 반환 받기
+		Member loginMember = service.login(inputMember);
+		
+		// 로그인 성공 시 loginMember를 세션에 추가
+		// 로그인 실패 시 "아이디 또는 비밀번호가 일치하지 않습니다" 세션에 추가
 		
 		return "redirect:/";
 	}
