@@ -84,10 +84,25 @@
 		AND MEMBER_EMAIL = #{memberEmail}
   </select>
   
-  
-  
-  
-  
-  
+  <!-- insert / update / delete
+  		항상 반영된 행의 갯수(int type)이 반환되기 때문에
+  		별도의 resultType 지정이 필요 없다
+   -->
+  <!-- 회원 가입 -->
+  																	<!-- 별칭 사용가능 : Member(mybatis-config.xml) -->
+  																	
+  																	
+	<!-- SQL 실행 시 여러가지 객체의 정보가 필요할 경우 Map사용
+			 Map에 객체의 정보들만 k, v로 담거나
+			 V에 객체를 담아
+			 k = member1, member2...
+			 v = Member객체 일 때
+			 member1.getMemberEmail 이런 식으로 작성하여 정보 가져올 수 있음
+	-->  																	
+  <insert id="signUp" parameterType="edu.kh.project.member.model.vo.Member"> 
+  	INSERT INTO "MEMBER" 
+  	VALUES(SEQ_MEMBER_NO.NEXTVAL, #{memberEmail}, #{memberPw}, #{memberNickname}, #{memberTel}, #{memberAddress},
+  	 	DEFAULT, DEFAULT, DEFAULT, DEFAULT)
+  </insert> 
   
 </mapper>

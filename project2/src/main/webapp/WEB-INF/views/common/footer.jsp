@@ -22,13 +22,18 @@
      alert창을 이용해서 내용 출력
      
  --%>
-<c:if test="${not empty sessionScope.message}">
+<c:if test="${not empty message}">
         <script>
-            alert("${sessionScope.message}");
+            alert("${message}");
         </script>
 
-        <%-- message 1회 출력 후 session scope에서 삭제 --%>
-        <c:remove var="message" scope="session"/>
+        <%-- message 1회 출력 후 삭제 --%>
+
+        <%-- 
+            RedirectAttributes -> request
+            HttpSession        -> session
+         --%>
+        <c:remove var="message" />
     </c:if>
     <%-- alert메세지를 footer에 작성하는 이유
         - header or footer는 모든 페이지에 include 될것이다.
