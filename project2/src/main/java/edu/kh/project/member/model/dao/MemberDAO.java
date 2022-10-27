@@ -36,7 +36,7 @@ public class MemberDAO {
 	 * @return result
 	 */
 	public int signUp(Member inputMember) {
-//		return sqlSession.insert("memberMapper.signUp", inputMember);
-		return 0;    // 실패를 가정한 코드
+		return sqlSession.insert("memberMapper.signUp", inputMember);
+//		return 0;    // 실패를 가정한 코드
 	}
 }

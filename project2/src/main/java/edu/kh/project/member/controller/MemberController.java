@@ -292,8 +292,7 @@ public class MemberController {
 			
 			// 이전 페이지로 돌아갔을 때 입력했던 값을 같이 전달
 			inputMember.setMemberPw(null);
-			ra.addFlashAttribute("tempMember", inputMember);
-			
+			ra.addAttribute("tempMember", inputMember);
 		}
 		
 		ra.addFlashAttribute("message", message);
