@@ -32,6 +32,8 @@
 	<resources mapping="/resources/**" location="/resources/" />
 	<!-- webapp폴더 -->
 	
+	<!-- favicon 추가 -->
+	<resources mapping="/favicon.ico" location="/resources/images/favicon.ico" />
 	
 	
 	<!-- View Resolver 설정 -->
