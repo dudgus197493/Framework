@@ -26,17 +26,17 @@
                 </label>
                 <!-- 이메일 입력 영역 -->
                 <div class="signUp-input-area">
-                    <input type="text" name="memberEmail" id="memberEmail" placeholder="아이디(이메일)" maxlength="20" autocomplete="off" required value="${tempMember.memberEmail}">
+                    <input type="text" name="memberEmail" id="memberEmail" placeholder="아이디(이메일)" maxlength="50" autocomplete="off" value="${tempMember.memberEmail}">
                     <button type="button">인증번호 받기</button>
                 </div>
-                <span class="signUp-message">메일을 받을 수 있는 이메일을 입력해주세요.</span>
+                <span class="signUp-message" id="emailMessage">메일을 받을 수 있는 이메일을 입력해주세요.</span>
                 
                 <!-- 인증번호 입력 -->
                 <label for="emailCheck">
                     <span class="required">*</span> 인증번호
                 </label>
                 <div class="signUp-input-area">
-                    <input type="text" name="emailCheck" id="emailCheck" placeholder="인증번호 입력" maxlength="6" autocomplete="off" required>
+                    <input type="text" name="emailCheck" id="emailCheck" placeholder="인증번호 입력" maxlength="6" autocomplete="off" >
                     <button type="button">인증하기</button>
                 </div>
                 <span class="signUp-message confirm">인증되었습니다.</span><!-- / 인증번호가 일치하지 않습니다. -->
@@ -47,12 +47,12 @@
                 </label>
                 
                 <div class="signUp-input-area">
-                    <input type="password" name="memberPw" id="memberPw" placeholder="비밀번호" maxlength="20" required>
+                    <input type="password" name="memberPw" id="memberPw" placeholder="비밀번호" maxlength="20">
                 </div>
                 <div class="signUp-input-area">
-                    <input type="password" name="memberPwConfirm" id="memberPwConfirm" placeholder="비밀번호 확인" maxlength="20" required>
+                    <input type="password" name="memberPwConfirm" id="memberPwConfirm" placeholder="비밀번호 확인" maxlength="20">
                 </div>
-                <span class="signUp-message error">비밀번호가 일치하지 않습니다.</span>
+                <span class="signUp-message" id="pwMessage">영어, 숫자, 특수문자(!,@,#,-,_) 6 ~ 20 글자 사이로 입력해주세요.</span>
 
 
                 <!-- 닉네임 입력 -->
@@ -61,9 +61,9 @@
                 </label>
                 
                 <div class="signUp-input-area">
-                    <input type="text" name="memberNickname" id="memberNickname" placeholder="닉네임" maxlength="10" required value="${tempMember.memberNickname}">
+                    <input type="text" name="memberNickname" id="memberNickname" placeholder="닉네임" maxlength="10" id="memberNickname" value="${tempMember.memberNickname}">
                 </div>
-                <span class="signUp-message confirm">사용가능한 닉네임 입니다.</span>
+                <span class="signUp-message" id="nickMessage">한글,영어,숫자로만 2~10글자</span>
                 
                 <!-- 전화번호 입력 -->
                 <label for="memberTel">
@@ -71,9 +71,9 @@
                 </label>
                 
                 <div class="signUp-input-area">
-                    <input type="text" name="memberTel" id="memberTel" placeholder="(-없이 숫자만 입력)" maxlength="11" required value="${tempMember.memberTel}">
+                    <input type="text" name="memberTel" id="memberTel" placeholder="(-없이 숫자만 입력)" maxlength="11" value="${tempMember.memberTel}">
                 </div>
-                <span class="signUp-message error">전화번호 형식이 올바르지 않습니다.</span>
+                <span class="signUp-message" id="telMessage">전화번호를 입력해주세요.(- 제외)</span>
 
 
                 <%-- a,,b,,c --%>
@@ -129,5 +129,7 @@
         }
     </script>
     <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
+
+    <script src="/resources/js/member/signUp.js"></script>
 </body>
 </html>
