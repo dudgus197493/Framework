@@ -128,7 +128,14 @@
             }).open();
         }
     </script>
+
+
     <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
+
+
+    <%-- jQuery 스크립트 추가 (CDN 방식) --%>
+    <%-- 다운받아 사용하는 것보다 느림 --%>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 
     <script src="/resources/js/member/signUp.js"></script>
 </body>
