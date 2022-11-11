@@ -137,7 +137,6 @@ memberEmail.addEventListener("input", function(){
             }
         });
 
-
     } else {                                // 유효하지 않은 경우
         emailMessage.innerText = "잘못된 이메일 형식입니다."
         emailMessage.classList.add("error");
@@ -262,11 +261,42 @@ memberNickname.addEventListener("input", function(){
     if(regEx.test(memberNickname.value)) {      // 유효한 경우
         
         // ** 닉네임 중복검사 코드 추가 예정 **
-        nickMessage.innerText = "유효한 닉네임 형식 입니다."
-        nickMessage.classList.add("confirm");
-        nickMessage.classList.remove("error");
+        const param = {"memberNickname": memberNickname.value};
 
-        checkObj.memberNickname = true;
+        $.ajax({
+            url: "/nicknameDupCheck",
+            data: param,
+            type: "GET",  // type 미작성 시 기본값 GET
+            success: res => {
+                // 매개변수 res == 서버 비동기 통신 응답데이터
+                // console.log("res : " + res);
+
+                if(res == 0) {
+                    nickMessage.innerText = "사용 가능한 닉네임 입니다.";
+                    nickMessage.classList.add("confirm");
+                    nickMessage.classList.remove("error");
+                    checkObj.memberNickname = true;
+                } else {
+                    nickMessage.innerText = "사용 불가능한 닉네임입니다.";
+                    nickMessage.classList.add("error");
+                    nickMessage.classList.remove("confirm");
+                    checkObj.memberNickname = false;
+                }
+            },
+            error: () => {
+                console.log("닉네임 중복 검사 실패");
+            },
+            complete: tempFn
+            // data에 객체를 리턴하는 함수호출문을 사용할 수 있는가?
+            // complete에 실행하는 함수에 매개변수를 넣을 수 있는가? yes
+        });
+
+        // nickMessage.innerText = "유효한 닉네임 형식 입니다."
+        // nickMessage.classList.add("confirm");
+        // nickMessage.classList.remove("error");
+
+        // checkObj.memberNickname = true;
+        
     } else {                                    // 유효하지 않는 경우
         nickMessage.innerText = "유효하지 않는 닉네임 형식 입니다."
         nickMessage.classList.add("error");
@@ -276,6 +306,9 @@ memberNickname.addEventListener("input", function(){
     }
 });
 
+function tempFn(){
+    console.log("닉네임 검사 완료");
+}
 
 
 // 전화번호 유효성 검사

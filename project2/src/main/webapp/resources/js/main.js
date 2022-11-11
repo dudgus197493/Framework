@@ -4,31 +4,33 @@ console.log("main.js loaded");
 const saveId = document.getElementById("saveId");
 
 // radio, checkbox 값이 변할 때 발생하는 이벤트 : change
-saveId.addEventListener("change", function(){
-
-    // change는 체크가 되거나, 해제될 때 이벤트 발생
-    // -> 체크되어있는지 별도 검사 필요
-
-    // 이벤트 핸들러 내부 this : 이벤트가 발생한 요소(아이디 저장 checkbox)
-    console.log(this.checked);
-
-    // 체크박스.checked : 체크 O == true, 체크 X == false 반환
-    // 체크박스.checked = true : 체크 O
-    // 체크박스.checked = false : 체크 X
-
-
-    if(this.checked) { // 체크된 경우
-
-        const str = "개인 정보 보회를 위해 개인 PC에서의 사용을 권장합니다. "
-                + "개인 PC가 아닌경우 취소를 눌러주세요.";
-
-        // window.confirm("내용") : 확인 == true, 취소 == false 반환
-        if(!confirm(str)){  // 취소를 누른 경우
-            this.checked = false;
+if(saveId != null) {
+    saveId.addEventListener("change", function(){
+    
+        // change는 체크가 되거나, 해제될 때 이벤트 발생
+        // -> 체크되어있는지 별도 검사 필요
+    
+        // 이벤트 핸들러 내부 this : 이벤트가 발생한 요소(아이디 저장 checkbox)
+        console.log(this.checked);
+    
+        // 체크박스.checked : 체크 O == true, 체크 X == false 반환
+        // 체크박스.checked = true : 체크 O
+        // 체크박스.checked = false : 체크 X
+    
+    
+        if(this.checked) { // 체크된 경우
+    
+            const str = "개인 정보 보회를 위해 개인 PC에서의 사용을 권장합니다. "
+                    + "개인 PC가 아닌경우 취소를 눌러주세요.";
+    
+            // window.confirm("내용") : 확인 == true, 취소 == false 반환
+            if(!confirm(str)){  // 취소를 누른 경우
+                this.checked = false;
+            }
         }
-    }
-
-});
+    
+    });
+}
 
 // 로그인 유효성 검사
 // (로그인 form 태그 submit 이벤트 취소하기)
@@ -65,3 +67,153 @@ function loginValidate() {
     }
     return true;
 }
+
+// 이메일로 회원 정보 조회(AJAX)
+const inputEmail = document.getElementById("inputEmail");
+const selectEmail = document.getElementById("selectEmail");
+
+selectEmail.addEventListener("click", e => {
+
+    // 아무것도 입력되지 않은 상태일 경우
+    if(inputEmail.value.trim().length == 0) {
+        alert("이메일을 입력해주세요");
+        return;;
+    }
+
+    $.ajax({
+        url: "/selectEmail",
+        data: {"email": inputEmail.value},
+        type: "POST",
+        // dataType: "JSON",   // 응답 데이터의 형식이 JSON이다. -> 자동으로 JS객체로 변환
+        success: member => {
+            console.log(member);
+
+            // 1. JSON 형태의 문자열로 반환된 경우 (JSON -> js 객체)
+            // 방법 1) JSON.parse(문자열);
+            // console.log(JSON.parse(member));
+
+            // 방법 2) dataType: "json" 추가
+
+            // 2. Jackson 라이브러리 이용
+            // JS객체로 변환
+            // -> 응답자체가 JS객체로 오기때문에 dataType:"JSON" 작성 X
+
+            // --------------------------------
+            if(member == "") {        // 일치 x
+                console.log("데이터 없음");
+                // h4 요소 생성
+                const h4 = document.createElement("h4");
+
+                // 내용 추가
+                h4.innerText = inputEmail.value + "은/는 존재하지 않습니다.";
+                
+                // selectEmail의 다음 요소로 추가(.after(요소))
+                // append() : 마지막 자식으로 추가
+                // prepend(요소) : 첫 번째 자식으로 추가
+                // before(요소) : 이전에 추가
+
+
+                // selectEmail의 다음요소가 존재한다면 제거
+                if(selectEmail.nextElementSibling != null) {
+                    selectEmail.nextElementSibling.remove();
+                }
+                
+                // selectEmail의 다음 요소로 추가(.after(요소))
+                selectEmail.after(h4);
+
+            } else {                    // 일치 O
+                const ul = document.createElement("ul");
+                const li1 = document.createElement("li");
+                li1.innerText = `회원번호 : ${member.memberNo}`;
+
+                const li2 = document.createElement("li");
+                li2.innerText = `이메일 : ${member.memberEmail}`;
+
+                const li3 = document.createElement("li");
+                li3.innerText = `닉네임 : ${member.memberNickname}`;
+
+                const li4 = document.createElement("li");
+                li4.innerText = `주소 : ${member.memberAddress}`;
+
+                const li5 = document.createElement("li");
+                li5.innerText = `가입일 : ${member.enrollDate}`;
+                
+                const li6 = document.createElement("li");
+                li6.innerText = `탈퇴여부 : ${member.memberDeleteFlag}`;
+                
+                ul.append(li1, li2, li3, li4, li5, li6);
+
+                // selectEmail의 다음요소가 존재한다면 제거
+                if(selectEmail.nextElementSibling != null) {
+                    selectEmail.nextElementSibling.remove();
+                }
+
+                // 버튼 다음 요소로 추가
+                selectEmail.after(ul);
+            }
+        },
+        error: () => {
+            console.log("이메일로 조회하기 실패");
+        }
+    });
+});
+
+// 비동기로 회원 전체 조회 함수 선언 및 정의
+function selectMemberList() {
+    const tbody = document.getElementById("tbody");
+    
+    if(tbody.nextElementSibling != null) tbody.nextElementSibling.remove();
+    
+    // tbody 이전 내용 삭제
+    tbody.innerHTML = "";
+
+    $.ajax({
+        url: "/selectMemberList",
+        dataType: "JSON",   // 응답 데이터 JSON -> 자동으로 JS객체로 변환
+        success: memberList => {
+            for(let member of memberList) {
+                const tr = document.createElement("tr");
+                if(member.memberDeleteFlag == 'Y') {
+                    tr.classList.add("secession");
+                }
+                const th = document.createElement("th");
+                th.innerText = member.memberNo;
+
+                const td1 = document.createElement("td")
+                td1.innerText = member.memberEmail;
+
+                const td2 = document.createElement("td");
+                td2.innerText = member.memberDeleteFlag;
+                
+                tr.append(th, td1, td2);
+                tbody.append(tr);
+            }   // end for
+            
+            // 회원 수 출력
+            const tfoot = document.createElement("tfoot");
+            const tr = document.createElement("tr");
+            const th1 = document.createElement("th");
+            th1.innerText = "회원 수";
+
+            const th2 = document.createElement("th");
+            th2.setAttribute("colspan", 2);
+            th2.setAttribute("id", "memberCount");
+            th2.innerText = memberList.length + "명";
+            
+            tr.append(th1, th2);
+            tfoot.append(tr);
+            tbody.after(tfoot);
+        },
+        error: () => {
+            console.log("회원 목록 조회 실패");
+        }
+    });
+}
+
+// HTML 문서가 모두 읽어진 후 
+// selectMemberList() 바로 호출
+// 그 다음 10초 마다 호출
+document.addEventListener("DOMContentLoaded", () => {
+    selectMemberList();
+    setInterval(selectMemberList, 1000 * 10);
+})

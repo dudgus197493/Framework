@@ -27,7 +27,46 @@
 
         <section class="content">
             <section class="content-1">
-                ${loginMember}
+                <div>
+                    <h3>이메일로 회원 정보 조회(AJAX)</h3>
+
+                    이메일 : <input type="text" id="inputEmail">
+                    <button id="selectEmail">조회</button>
+                    
+                </div>
+
+                <div id="content-1-2">
+                    <h3>10초마다 모든 회원 정보 조회(AJAX)</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>회원번호</th>
+                                <th>이메일</th>
+                                <th>탈퇴여부</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="tbody">
+                            <%-- <tr>
+                                <th>1</th>
+                                <td>user04@gmail.com</td>
+                                <td>N</td>
+                            </tr>
+                            <tr>
+                                <th>2</td>
+                                <td>user01@kh.or.kr</td>
+                                <td>Y</td>
+                            </tr> --%>
+                        </tbody>
+
+                        <%-- <tfoot>
+                            <tr>
+                                <th>회원 수</th>
+                                <th colspan="2" id="memberCount">2명</th>
+                            </tr>
+                        </tfoot> --%>
+                    </table>
+                </div>
             </section>
 
             <!----------------------------- login ----------------------------->
@@ -95,12 +134,9 @@
 
                                 <p>${loginMember.memberEmail}</p>
                             </div>
-
                         </article>
                     </c:otherwise>
                 </c:choose>
-
-                
             </section>
         </section>
     </main>
@@ -108,6 +144,7 @@
     <!----------------------------- footer ----------------------------->
     <jsp:include page="/WEB-INF/views/common/footer.jsp" />
 
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
     <script src="/resources/js/main.js"></script>
 </body>
 </html>

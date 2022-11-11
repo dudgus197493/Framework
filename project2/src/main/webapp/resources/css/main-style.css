@@ -400,3 +400,16 @@ label[for='header-menu-toggle']:hover {
     color: grey;
 }
 
+
+#content-1-2 {
+    width: 500px;
+    margin: 50px auto;
+}
+
+.secession {
+    background-color: #ccc;
+}
+.secession > td:first-of-type {
+    text-decoration: line-through;
+    /* 삭제선 */
+}

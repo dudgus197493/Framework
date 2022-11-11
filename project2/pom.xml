@@ -31,7 +31,7 @@
 		    <groupId>org.apache.commons</groupId>
 		    <artifactId>commons-dbcp2</artifactId>
 		    <version>2.9.0</version>
-		</dependency>
+		</dependency>	
 		
 		  <!-- jackson bind -->
     <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
@@ -40,6 +40,13 @@
        <artifactId>jackson-databind</artifactId>
        <version>2.9.8</version>
     </dependency>
+    
+    		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+		<dependency>
+		    <groupId>com.google.code.gson</groupId>
+		    <artifactId>gson</artifactId>
+		    <version>2.10</version>
+		</dependency>
 		
 		<!-- Sptring - MyBatis 연결 모듈 -->
 		<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis-spring -->
