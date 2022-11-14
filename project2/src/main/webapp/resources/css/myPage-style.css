@@ -125,6 +125,7 @@ form[name='myPage-frm'] {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    position: relative;
 }
 
 /* 내부 input 요소 focus 시 */
@@ -177,15 +178,21 @@ form[name='myPage-frm'] > .myPage-row:focus-within {
     border: 3px solid #ccc;
     border-radius: 50%;
     position: relative;
+
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 #profile-image {
-    width: 100%;
     height: 100%;
-    border-radius: 50%;
 }
+
+/* 삭제버튼 */
 #delete-image {
     position: absolute;
-    right: 1px;
+    top : -2px;
+    right: 240px;
     cursor: pointer;
 }
 

@@ -166,7 +166,6 @@ function selectMemberList() {
     
     // tbody 이전 내용 삭제
     tbody.innerHTML = "";
-
     $.ajax({
         url: "/selectMemberList",
         dataType: "JSON",   // 응답 데이터 JSON -> 자동으로 JS객체로 변환
