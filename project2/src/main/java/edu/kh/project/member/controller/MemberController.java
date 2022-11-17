@@ -3,11 +3,11 @@ package edu.kh.project.member.controller;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -38,7 +38,6 @@ import edu.kh.project.member.model.vo.Member;
 public class MemberController {
 	
 	// * 공용으로 사용할 Service 객체 생성 *
-	
 	// @Autowired
 	// bean scanning을 통해 bean으로 등록된 객체 중
 	// 알맞은 객체를 DI(의존성 주입) 해주는 어노테이션
@@ -46,6 +45,7 @@ public class MemberController {
 	// 자동 연결 규칙 : 타입이 같거나 상속 관계인 bean을 자동으로 DI
 	
 	// 같은 타입이 여러개 있다면 @Qualifier("name")을 사용하여 DI할 bean 명시
+
 	
 	@Autowired
 	private MemberService service;
@@ -136,20 +136,19 @@ public class MemberController {
 	public String login(/* @ModelAttribute */ Member inputMember,
 						Model model, @RequestParam(value="saveId", required = false) String saveId,
 						HttpServletResponse resp, // 쿠키 전달용
-//						RedirectAttributes ra,
+						RedirectAttributes ra,
 						@RequestHeader(value="referer") String referer // 요청 이전 주소
 						) { 
 		// Model : 데이터 전달용 객체
 		// - 데이터를 Map 형식으로 저장하여 전달하는 객체
 		// - request scope가 기본값
-		//   + @SessionAttributes 어노테이션과 함께 작성 시 session scope로 변환 가능
-			
+		//   + @SessionAttributes 어노테이션과 함께 작성 시 session scope로 변환 가능		
+		
 		// RedirectAttributes
 		// - 리다이렉트 시 값을 전달하는 용도의 객체
 		// - 응답 전 : request scope
 		// - redirect 중 : session scope
 		// - 응답 후 : request scope
-		
 		
 		// Servlet 프로젝트
 		// Service 객체 생성
@@ -214,7 +213,6 @@ public class MemberController {
 //			ra.addAttribute("message", "아이디 또는 비밀번호가 일치하지 않습니다");
 			model.addAttribute("message", "아이디 또는 비밀번호가 일치하지 않습니다");
 		}
-		
 		return "redirect:" + path;
 	}
 	
@@ -226,7 +224,7 @@ public class MemberController {
 	
 	// 로그아웃
 	@GetMapping("/member/logout")
-	public String logout(SessionStatus status) {
+	public String logout(SessionStatus status, HttpSession session) {
 		
 		// 기존 :
 		// 	HttpServletRequest req;
@@ -241,8 +239,8 @@ public class MemberController {
 		//   @SessionAttributes로 session scope에 등록된 값을 무효화 시키려면
 		// 	 SessionStatus라는 별도의 객체를 이용해야 함
 
-		status.setComplete();	// 세션 무효화
-		
+//		status.setComplete();	// 세션 무효화
+		session.invalidate();
 		return "redirect:/";
 	}
 	

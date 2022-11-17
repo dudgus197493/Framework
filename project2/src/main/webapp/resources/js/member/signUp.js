@@ -410,7 +410,6 @@ sendAuthKeyBtn.addEventListener("click", function(){
                 authMin--;
             }
 
-
             authSec--; // 1초 감소
 
         }, 1000)
