@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
-
+<%-- map에 저장된 값을 꺼내어 각각 변수에 저장 --%>
+<c:set var="boardList" value="${map.boardList}"/>
+<c:set var="pagination" value="${map.pagination}"/>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,25 +41,38 @@
                     </thead>
 
                     <tbody>
-                   		<!-- 게시글 목록 조회 결과가 비어있다면 -->
-                         <tr>
-                             <th colspan="6">게시글이 존재하지 않습니다.</th>
-                         </tr>
-
-						<!-- 게시글 목록 조회 결과가 있지 않다면 -->
-                        <tr>
-                            <td>1500</td>
-                            <td> 
-                                <img class="list-thumbnail" src="/resources/images/board/20221116105843_00001.gif">
-
-                                <a href="#">1500번째 게시글</a>   
-                                [2]                        
-                            </td>
-                            <td>유저일</td>
-                            <td>2022-11-17</td>
-                            <td>10</td>
-                            <td>1</td>
-                        </tr>
+                        <c:choose>
+                            <c:when test="${empty boardList}">
+                                <!-- 게시글 목록 조회 결과가 비어있다면 -->
+                                <tr>
+                                    <th colspan="6">게시글이 존재하지 않습니다.</th>
+                                </tr>
+                            </c:when>
+                            <c:otherwise>
+                                <!-- 게시글 목록 조회 결과가 있다면 -->
+                                <c:forEach var="board" items="${boardList}">
+                                    <tr>
+                                        <td>${board.boardNo}</td>
+                                        <td> 
+                                            <%-- 썸네일이 있을 경우에만 출력 --%>
+                                            <c:if test="${not empty board.thumbnail}">
+                                                <img class="list-thumbnail" src="${board.thumbnail}">
+                                            </c:if>
+                                            <%-- 
+                                                /board/1/1500
+                                                /board/{boardCode}/{boardNo}
+                                             --%>
+                                            <a href="/board/${boardCode}/${board.boardNo}">${board.boardTitle}</a>   
+                                            [${board.commentCount}]                        
+                                        </td>
+                                        <td>${board.memberNickname}</td>
+                                        <td>${board.boardCreateDate}</td>
+                                        <td>${board.readCount}</td>
+                                        <td>${board.likeCount}</td>
+                                    </tr>
+                                </c:forEach>
+                            </c:otherwise>
+                        </c:choose>
                     </tbody>
                 </table>
             </div>
