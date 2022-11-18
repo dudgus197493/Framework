@@ -20,7 +20,6 @@
     <main>
         <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 
-        
         <section class="board-list">
 
             <h1 class="board-name">${boardName}</h1>
@@ -28,7 +27,6 @@
 
             <div class="list-wrapper">
                 <table class="list-table">
-                    
                     <thead>
                         <tr>
                             <th>글번호</th>
@@ -76,10 +74,7 @@
                     </tbody>
                 </table>
             </div>
-
-
             <div class="btn-area">
-
 				<!-- 로그인 상태일 경우 글쓰기 버튼 노출 -->
                 <button id="insertBtn">글쓰기</button>                     
 
@@ -87,24 +82,35 @@
 
 
             <div class="pagination-area">
-
-
                 <ul class="pagination">
                 
                     <!-- 첫 페이지로 이동 -->
-                    <li><a href="#">&lt;&lt;</a></li>
+                    <li><a href="/board/${boardCode}">&lt;&lt;</a></li>
 
                     <!-- 이전 목록 마지막 번호로 이동 -->
-                    <li><a href="#">&lt;</a></li>
+                    <li><a href="/board/${boardCode}?cp=${pagination.prevPage}">&lt;</a></li>
 
-					
+                    <c:forEach var="i" begin="${pagination.startPage}" end="${pagination.endPage}" step="1">
+                        <c:choose>
+                            <c:when test="${i == pagination.currentPage}">
+                                <li><a class="current">${i}</a></li>
+                            </c:when>
+                            <c:otherwise>
+                                <li><a href="/board/${boardCode}?cp=${i}">${i}</a></li>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>
+
+
+
                     <!-- 특정 페이지로 이동 -->
                     
                     <!-- 현재 보고있는 페이지 -->
-                    <li><a class="current">1</a></li>
+                    <%-- <li><a class="current">1</a></li> --%>
                     
                     <!-- 현재 페이지를 제외한 나머지 -->
-                    <li><a href="#">2</a></li>
+                    
+                    <%-- <li><a href="#">2</a></li>
                     <li><a href="#">3</a></li>
                     <li><a href="#">4</a></li>
                     <li><a href="#">5</a></li>
@@ -112,13 +118,13 @@
                     <li><a href="#">7</a></li>
                     <li><a href="#">8</a></li>
                     <li><a href="#">9</a></li>
-                    <li><a href="#">10</a></li>
+                    <li><a href="#">10</a></li> --%>
                     
                     <!-- 다음 목록 시작 번호로 이동 -->
-                    <li><a href="#">&gt;</a></li>
+                    <li><a href="/board/${boardCode}?cp=${pagination.nextPage}">&gt;</a></li>
 
                     <!-- 끝 페이지로 이동 -->
-                    <li><a href="#">&gt;&gt;</a></li>
+                    <li><a href="/board/${boardCode}?cp=${pagination.maxPage}">&gt;&gt;</a></li>
 
                 </ul>
             </div>
@@ -149,9 +155,8 @@
         <img id="modal-image" src="/resources/images/board/20221116105843_00001.gif">
     </div>
 
-
     <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 
-
+    <script src="/resources/js/board/boardList.js"></script>
 </body>
 </html>
