@@ -52,9 +52,29 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	// 게시글 조회수 증가 서비스
-	@Transactional
+	// @Transactional 어노테이션은 dao한개만 실행 시 자동으로 취소 (생략 가능) -> 성능을 위해 생략
+	// 여러개의 dao를 실행할 때 보통 사용
+//	@Transactional
 	@Override
 	public int updateReadCount(int boardNo) {
 		return dao.updateReadCount(boardNo);
+	}
+
+	// 게시글 좋아요 여부 체크
+	@Override
+	public int boardLikeCheck(Map<String, Object> map) {
+		return dao.boardLikeCheck(map);
+	}
+
+	// 게시판 좋아요 수 증가 서비스
+	@Override
+	public int boardLikeUp(Map<String, Object> paramMap) {
+		return dao.boardLikeUp(paramMap);
+	}
+
+	// 게시판 좋아요 수 감소 서비스
+	@Override
+	public int boardLikeDown(Map<String, Object> paramMap) {
+		return dao.boardLikeDown(paramMap);
 	}
 }

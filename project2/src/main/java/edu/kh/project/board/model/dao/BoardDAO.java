@@ -67,4 +67,29 @@ public class BoardDAO {
 	public int updateReadCount(int boardNo) {
 		return sqlSession.update("boardMapper.updateReadCount", boardNo);
 	}
+
+	/** 게시글 좋아요 여부 체크 DAO
+	 * @param map
+	 * @return
+	 */
+	public int boardLikeCheck(Map<String, Object> map) {
+		return sqlSession.selectOne("boardMapper.boardLikeCheck", map);
+	}
+	
+	
+	/** 게시글 좋아요 수 증가 DAO
+	 * @param paramMap
+	 * @return result
+	 */
+	public int boardLikeUp(Map<String, Object> paramMap) {
+		return sqlSession.insert("boardMapper.boardLikeUp", paramMap);
+	}
+
+	/** 게시글 좋아요 수 감소 DAO
+	 * @param paramMap
+	 * @return result
+	 */
+	public int boardLikeDown(Map<String, Object> paramMap) {
+		return sqlSession.delete("boardMapper.boardLikeDown", paramMap);
+	}
 }

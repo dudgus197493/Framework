@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
@@ -12,13 +13,17 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import edu.kh.project.board.model.service.BoardService;
 import edu.kh.project.board.model.vo.Board;
+import edu.kh.project.member.model.vo.Member;
 
 @Controller
 public class BoardController {
@@ -59,8 +64,9 @@ public class BoardController {
 	public String boardDetail(
 			@PathVariable("boardNo") int boardNo,
 			@PathVariable("boardCode") int boardCode,
-			Model model, HttpServletRequest req, HttpServletResponse resp) throws ParseException {
-		
+			Model model, HttpServletRequest req, HttpServletResponse resp,
+			@SessionAttribute(value="loginMember", required=false) Member loginMember) throws ParseException {
+												// Session에 loginMember가 없으면 null
 		// 게시글 상세조회 서비스 호출
 		Board board = service.selectBoardDetail(boardNo);
 		
@@ -159,9 +165,41 @@ public class BoardController {
 			}
 		}
 		// + 좋아요 수, 좋아요 여부
+		if(board != null) {
+			// BOARD_LIKE 테이블에
+			// 게시글번호, 로그인한 회원 번호가 일치하는 행이 있는지 확인
+			if(loginMember != null) {	// 로그인 상태인 경우
+				Map<String, Object> map = new HashMap<>();
+				map.put("boardNo", boardNo);
+				map.put("memberNo", loginMember.getMemberNo());
+				
+				int result = service.boardLikeCheck(map);
+				if(result > 0) {		// 좋아요가 되어있는 경우
+					model.addAttribute("likeCheck", "on");
+				}
+			}
+		}
 		
 		model.addAttribute("board", board);
 		
 		return "board/boardDetail";
+	}
+	
+	// 좋아요 수 증가(INSERT)
+	@GetMapping("/boardLikeUp")
+	@ResponseBody
+	// Board로 한번에 파라미터를 받을 수 있지만 BoardVO가 필드가 많아 너무 무거워 비효율적
+	public int boardLikeUp(@RequestParam Map<String, Object> paramMap) {
+		// @RequestParam Map<String, Object>
+		// -> 요청 시 전달된 파라미터를 하나의 Map으로 반환
+		
+		return service.boardLikeUp(paramMap);
+	}
+	
+	// 좋아요 수 감소(DELETE)
+	@GetMapping("/boardLikeDown")
+	@ResponseBody
+	public int boardLikeDown(@RequestParam Map<String, Object> paramMap) {
+		return service.boardLikeDown(paramMap);
 	}
 }
