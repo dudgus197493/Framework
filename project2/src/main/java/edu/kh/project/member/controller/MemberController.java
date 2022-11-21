@@ -239,8 +239,8 @@ public class MemberController {
 		//   @SessionAttributes로 session scope에 등록된 값을 무효화 시키려면
 		// 	 SessionStatus라는 별도의 객체를 이용해야 함
 
-//		status.setComplete();	// 세션 무효화
-		session.invalidate();
+		status.setComplete();	// 세션 무효화
+//		session.invalidate();
 		return "redirect:/";
 	}
 	

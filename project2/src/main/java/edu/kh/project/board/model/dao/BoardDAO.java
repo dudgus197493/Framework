@@ -58,4 +58,13 @@ public class BoardDAO {
 	public Board selectBoardDetail(int boardNo) {
 		return sqlSession.selectOne("boardMapper.selectBoardDetail", boardNo);
 	}
+
+	
+	/** 게시글 조회수 증가 DAO
+	 * @param boardNo
+	 * @return result
+	 */
+	public int updateReadCount(int boardNo) {
+		return sqlSession.update("boardMapper.updateReadCount", boardNo);
+	}
 }

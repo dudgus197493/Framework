@@ -25,4 +25,10 @@ public interface BoardService {
 	 */
 	Board selectBoardDetail(int boardNo);
 
+	/** 게시글 조회수 증가 서비스
+	 * @param boardNo
+	 * @return result
+	 */
+	int updateReadCount(int boardNo);
+
 }

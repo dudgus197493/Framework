@@ -60,7 +60,7 @@
                                                 /board/1/1500
                                                 /board/{boardCode}/{boardNo}
                                              --%>
-                                            <a href="/board/${boardCode}/${board.boardNo}">${board.boardTitle}</a>   
+                                            <a href="/board/${boardCode}/${board.boardNo}?cp=${pagination.currentPage}">${board.boardTitle}</a>   
                                             [${board.commentCount}]                        
                                         </td>
                                         <td>${board.memberNickname}</td>

@@ -10,6 +10,7 @@
             <c:forEach var="comment" items="${board.commentList}">
                                             <%-- class 자리에 jstl사용하기 --%>
                 <li class="comment-row  <c:if test="${comment.parentNo != 0 }"> child-comment </c:if>">
+                
                     <p class="comment-writer">
 
                         <c:if test="${empty comment.profileImage}">

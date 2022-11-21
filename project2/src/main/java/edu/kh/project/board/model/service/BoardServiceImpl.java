@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.kh.project.board.model.dao.BoardDAO;
 import edu.kh.project.board.model.vo.Board;
@@ -48,5 +49,12 @@ public class BoardServiceImpl implements BoardService{
 	public Board selectBoardDetail(int boardNo) {
 		
 		return dao.selectBoardDetail(boardNo);
+	}
+
+	// 게시글 조회수 증가 서비스
+	@Transactional
+	@Override
+	public int updateReadCount(int boardNo) {
+		return dao.updateReadCount(boardNo);
 	}
 }

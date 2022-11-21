@@ -43,6 +43,10 @@
                     </c:if>
                     <span>${board.memberNickname}</span>
 
+                    <%-- 좋아요 --%>
+                    <span class="like-area">
+                        
+                    </span>
                 </div>
 
                 <div class="board-info">
@@ -112,9 +116,10 @@
             <div class="board-btn-area">
 
                 <!-- 로그인한 회원과 게시글 작성자 번호가 같은 경우-->
-                <button id="updateBtn">수정</button>
-                <button id="deleteBtn">삭제</button>
-
+                <c:if test="${loginMember.memberNo eq board.memberNo}">
+                    <button id="updateBtn">수정</button>
+                    <button id="deleteBtn">삭제</button>
+                </c:if>
 
                 <button id="goToListBtn">목록으로</button>
             </div>
@@ -127,6 +132,6 @@
 
     <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 
-
+    <script src="/resources/js/board/board.js"></script>
 </body>
 </html>
