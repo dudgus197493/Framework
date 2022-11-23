@@ -28,12 +28,14 @@ public class Util {
 		}
 		
 		return content; 
-	}
-	
-	
+	}	
 	
 	// 개행문자 처리 : \r\n, \n, \r, \n\r -> <br> 로 변경
 	public static String newLineHandling(String content) {
 		return content.replaceAll("(\r\n|\n|\r|\n\r)", "<br>");
+	}
+	
+	public static String newLineClear(String content) {
+		return content.replaceAll("<br>", "\n");
 	}
 }

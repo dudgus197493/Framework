@@ -29,10 +29,4 @@ public class Board {
     
     // 댓글 목록
     private List<Comment> commentList;
-    
-    //
-	public void setBoardCode(int boardCode) {
-		// TODO Auto-generated method stub
-		
-	}
 }

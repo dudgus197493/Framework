@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="/resources/css/main-style.css">
 
     <link rel="stylesheet" href="/resources/css/board/boardWrite-style.css">
-    <link rel="stylesheet" href="/resources/css/boardWrite-style.css">
+    <link rel="stylesheet" href="/resources/css/board/boardWrite-style.css">
 
     <script src="https://kit.fontawesome.com/a2e8ca0ae3.js" crossorigin="anonymous"></script>
 </head>
@@ -23,12 +23,12 @@
     <main>
         <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 
-        <form action="/write/${boardCode}" method="POST" enctype="multipart/form-data" class="board-write" id="boardWriteForm" onsubmit="return writeValidate()">  
+        <form action="update" method="POST" enctype="multipart/form-data" class="board-write" id="boardWriteForm" onsubmit="return writeValidate()">  
 
 
             <!-- 제목 -->
             <h1 class="board-title">
-                <input type="text" name="boardTitle" placeholder="제목" value="">
+                <input type="text" name="boardTitle" placeholder="제목" value="${board.boardTitle}">
             </h1>
 
 
@@ -59,7 +59,7 @@
             <div class="img-box">
                 <div class="boardImg thumbnail">
                     <label for="img0">
-                        <img class="preview" src="">
+                        <img class="preview" src="${thumbnail}">
                     </label>
                     <input type="file" name="images" class="inputImage" id="img0" accept="image/*">
                     <span class="delete-image">&times;</span>
@@ -73,7 +73,7 @@
 
                 <div class="boardImg">
                     <label for="img1">
-                        <img class="preview" src="img1">
+                        <img class="preview" src="${img1}">
                     </label>
                     <input type="file" name="images" class="inputImage" id="img1" accept="image/*">
                     <span class="delete-image">&times;</span>
@@ -81,7 +81,7 @@
 
                 <div class="boardImg">
                     <label for="img2">
-                        <img class="preview" src="img2">
+                        <img class="preview" src="${img2}">
                     </label>
                     <input type="file" name="images" class="inputImage" id="img2" accept="image/*">
                     <span class="delete-image">&times;</span>
@@ -89,7 +89,7 @@
 
                 <div class="boardImg">
                     <label for="img3">
-                        <img class="preview" src="img3">
+                        <img class="preview" src="${img3}">
                     </label>
                     <input type="file" name="images" class="inputImage" id="img3" accept="image/*">
                     <span class="delete-image">&times;</span>
@@ -97,7 +97,7 @@
 
                 <div class="boardImg">
                     <label for="img4">
-                        <img class="preview" src="img4">
+                        <img class="preview" src="${img4}">
                     </label>
                     <input type="file" name="images" class="inputImage" id="img4" accept="image/*">
                     <span class="delete-image">&times;</span>
@@ -106,16 +106,20 @@
 
             <!-- 내용 -->
             <div class="board-content">
-                <textarea name="boardContent"></textarea>
+                <textarea name="boardContent">${board.boardContent}</textarea>
             </div>
 
 
             <!-- 버튼 영역 -->
             <div class="board-btn-area">
-                <button type="submit" id="writebtn">등록</button>
+                <button type="submit" id="writebtn">수정</button>
             </div>
 
-            
+            <%-- 삭제될 이미지 순서를 저장한 input태그 --%>
+            <input type="hidden" name="deleteList" id="deleteList" value="">
+
+            <%-- 수정 완료 후 리다이렉트 시 사용 예정 --%>
+            <input type="hidden" name="cp" value="${param.cp}">
         </form>
 
     </main>
