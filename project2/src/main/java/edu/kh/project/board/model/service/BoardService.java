@@ -52,13 +52,13 @@ public interface BoardService {
 	 */
 	int boardLikeDown(Map<String, Object> paramMap);
 	
-	/** 게시글 삭제
+	/** 게시글 삭제 서비스
 	 * @param boardNo
 	 * @return result
 	 */
 	int boardDelete(int boardNo);
 
-	/** 게시글 삽입
+	/** 게시글 삽입 서비스
 	 * @param board
 	 * @param imageList
 	 * @param webPath
@@ -68,7 +68,7 @@ public interface BoardService {
 	int boardWrite(Board board, List<MultipartFile> imageList, 
 			String webPath, String folderPath) throws IOException;
 
-	/** 게시글 수정
+	/** 게시글 수정 서비스
 	 * @param board
 	 * @param imageList
 	 * @param webPath
@@ -78,5 +78,12 @@ public interface BoardService {
 	 * @return result
 	 */
 	int boardUpdate(Board board, List<MultipartFile> imageList, String webPath, String folderPath, String deleteList) throws Exception;
+
+	/** 게시글 검색 목록 조회 ㅅ비스
+	 * @param paramMap
+	 * @param cp
+	 * @return boardList
+	 */
+	Map<String, Object> selectBoardList(Map<String, Object> paramMap, int cp);
 
 }

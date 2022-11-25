@@ -142,7 +142,7 @@ public class BoardDAO {
 	}
 
 	
-	/** 이미지 수정
+	/** 이미지 수정 DAO
 	 * @param img
 	 * @return result
 	 */
@@ -150,11 +150,33 @@ public class BoardDAO {
 		return sqlSession.update("boardMapper.boardImageUpdate", img);
 	}
 
-	/** 이미지 삽입
+	/** 이미지 삽입 DAO
 	 * @param img
 	 * @return result
 	 */
 	public int boardImageInsert(BoardImage img) {
 		return sqlSession.insert("boardMapper.boardImageInsert", img);
+	}
+
+	/** 검색 조건이 일치하는 게시글 수 조회 DAO
+	 * @param paramMap
+	 * @return listCount
+	 */
+	public int getListCount(Map<String, Object> paramMap) {
+		return sqlSession.selectOne("boardMapper.getListCount_search", paramMap);
+	}
+
+	/** 검색 조건 일치 게시글 목록 조회 DAO
+	 * @param pagination
+	 * @param paramMap
+	 * @return boardList
+	 */
+	public List<Board> selectBoardList(Pagination pagination, Map<String, Object> paramMap) {
+		
+		int offset = (pagination.getCurrentPage() - 1) * pagination.getLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
+		
+		return sqlSession.selectList("boardMapper.selectBoardList_search", paramMap, rowBounds);
 	}
 }

@@ -19,11 +19,16 @@
 <body>
     <main>
         <jsp:include page="/WEB-INF/views/common/header.jsp"/>
-
+        
+        <%-- 검색을 진행한 경우 --%>
+        <c:if test="${not empty param.key}">
+            <%-- /board/1?cp=3&key=t&query=테스트 --%>
+            <c:set var="sURL" value="&key=${param.key}&query=${param.query}"/>
+        </c:if>
+    
         <section class="board-list">
 
             <h1 class="board-name">${boardName}</h1>
-
 
             <div class="list-wrapper">
                 <table class="list-table">
@@ -60,7 +65,7 @@
                                                 /board/1/1500
                                                 /board/{boardCode}/{boardNo}
                                              --%>
-                                            <a href="/board/${boardCode}/${board.boardNo}?cp=${pagination.currentPage}">${board.boardTitle}</a>   
+                                            <a href="/board/${boardCode}/${board.boardNo}?cp=${pagination.currentPage}${sURL}">${board.boardTitle}</a>   
                                             [${board.commentCount}]                        
                                         </td>
                                         <td>${board.memberNickname}</td>
@@ -87,18 +92,19 @@
                 <ul class="pagination">
                 
                     <!-- 첫 페이지로 이동 -->
-                    <li><a href="/board/${boardCode}">&lt;&lt;</a></li>
+                    <li><a href="/board/${boardCode}?cp=1${sURL}">&lt;&lt;</a></li>
 
                     <!-- 이전 목록 마지막 번호로 이동 -->
-                    <li><a href="/board/${boardCode}?cp=${pagination.prevPage}">&lt;</a></li>
+                    <li><a href="/board/${boardCode}?cp=${pagination.prevPage}${sURL}">&lt;</a></li>
 
                     <c:forEach var="i" begin="${pagination.startPage}" end="${pagination.endPage}" step="1">
                         <c:choose>
                             <c:when test="${i == pagination.currentPage}">
+                                <%-- 현재 보고있는 페이지 --%>
                                 <li><a class="current">${i}</a></li>
                             </c:when>
                             <c:otherwise>
-                                <li><a href="/board/${boardCode}?cp=${i}">${i}</a></li>
+                                <li><a href="/board/${boardCode}?cp=${i}${sURL}">${i}</a></li>
                             </c:otherwise>
                         </c:choose>
                     </c:forEach>
@@ -123,17 +129,17 @@
                     <li><a href="#">10</a></li> --%>
                     
                     <!-- 다음 목록 시작 번호로 이동 -->
-                    <li><a href="/board/${boardCode}?cp=${pagination.nextPage}">&gt;</a></li>
+                    <li><a href="/board/${boardCode}?cp=${pagination.nextPage}${sURL}">&gt;</a></li>
 
                     <!-- 끝 페이지로 이동 -->
-                    <li><a href="/board/${boardCode}?cp=${pagination.maxPage}">&gt;&gt;</a></li>
+                    <li><a href="/board/${boardCode}?cp=${pagination.maxPage}${sURL}">&gt;&gt;</a></li>
 
                 </ul>
             </div>
 
 
 			<!-- 검색창 -->
-            <form action="#" method="get" id="boardSearch" onsubmit="return false">
+            <form action="${boardCode}" method="get" id="boardSearch">
 
                 <select name="key" id="search-key">
                     <option value="t">제목</option>

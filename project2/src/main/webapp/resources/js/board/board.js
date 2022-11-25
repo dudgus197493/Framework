@@ -16,6 +16,7 @@ goToListBtn.addEventListener("click", ()=>{
 
     const queryString = location.search;        // ?cp=7
 
+    // /board/1?cp=7&key=t&query=고양이
     const url = pathname.substring(0, pathname.lastIndexOf("/")) + queryString;                                 // /board/1?cp=7
 
     location.href = url;

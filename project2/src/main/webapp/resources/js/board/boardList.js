@@ -24,7 +24,6 @@
                 modalImage.setAttribute("src", th.getAttribute("src"));
             });
         }
-
         // x버튼 동작
         modalClose.addEventListener("click", () => {
             // hide 클래스 추가해서 0.5초동안 투명해지는 애니메이션 수행
@@ -47,6 +46,36 @@
         insertBtn.addEventListener("click", () => {
             console.log(boardCode);
             location.href = "/write/" + boardCode;
-        })
+        });
     }
+})();
+
+
+// 검색을 한 경우 검색창에 검색 key, query 내용 남겨놓기
+(()=>{
+    const select = document.getElementById("search-key");
+    const input = document.getElementById("search-query");
+    const option = document.querySelectorAll("#search-key > option");
+    
+    if(select != null) { // 검색창이 존재할 때
+        const params = new URL(location.href).searchParams;
+        // 주소에서 쿼리스트링만 분리한 객체
+
+        const key = params.get("key");
+        const query = params.get("query");
+
+        // input에 이전 검색어를 값으로 추가
+        input.value = query;
+        
+        // select에서 이전 검색한 key의 값과 일치하는 option 태그에
+        // selected 속성 추가
+        for(let op of option) {
+
+            // option의 value와 key가 일치할 때
+            if(op.value == key) {
+                // op.setAttribute("selected", true);
+                op.selected = true;
+            }
+        }
+    }      
 })();
