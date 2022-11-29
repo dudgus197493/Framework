@@ -296,4 +296,9 @@ public class BoardServiceImpl implements BoardService{
 			
 			return map;
 		}
+
+		@Override
+		public List<String> selectImageList() {
+			return dao.selectImageList();
+		}
 }
