@@ -19,7 +19,17 @@
 	</properties>
 	<dependencies>
 		
-      <!-- 이메일 인증 -->
+		<!-- 채팅 구현을 위한 라이브러리 websocket (별도의 프로토콜) -->
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-websocket -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-websocket</artifactId>
+		    <version>${org.springframework-version}</version>
+		</dependency>
+		
+		
+		
+    <!-- 이메일 인증 -->
     <!-- https://mvnrepository.com/artifact/javax.mail/mail -->
     <dependency>
        <groupId>javax.mail</groupId>

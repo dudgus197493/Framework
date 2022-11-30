@@ -44,11 +44,8 @@
                     </c:if>
                 </li>
             </c:forEach>
-            
         </ul>
     </div>
-    
-
     <!-- 댓글 작성 부분 -->
     <div class="comment-write-area">
         <textarea id="commentContent"></textarea>
@@ -56,7 +53,5 @@
             댓글<br>
             등록
         </button>
-
     </div>
-
 </div>
